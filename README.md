@@ -1,9 +1,9 @@
 # AI Kids Story Studio — Architecture Case Study
 
 > A portfolio case study for an AI-assisted animated-story production pipeline.
-> This repository intentionally contains documentation only. The production source,
-> creative prompts, story worlds, characters, generated media, and provider setup
-> remain private.
+> This repository contains documentation and one selected pilot still. Production
+> source, creative prompts, the full story world and character library, generated
+> media collection, and provider configuration remain private.
 
 ## What this project demonstrates
 
@@ -39,6 +39,13 @@ flowchart LR
 ```
 
 See [the architecture](docs/ARCHITECTURE.md) for the component breakdown.
+
+## Selected pilot still
+
+![Finn and Puppy in the kindergarten classroom — selected pilot still](assets/pilot-still-finn-and-puppy.png)
+
+*A single still from the private pilot, shared solely to illustrate the visual
+outcome. All rights reserved; it is not licensed for reuse.*
 
 ## Pilot media stack
 
