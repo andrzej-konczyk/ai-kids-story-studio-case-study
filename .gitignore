@@ -1,0 +1,10 @@
+# Keep this portfolio repository documentation-only by default.
+.env
+.venv/
+__pycache__/
+*.py[cod]
+assets/private/
+*.mp4
+*.wav
+*.mp3
+*.json
