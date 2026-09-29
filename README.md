@@ -16,7 +16,7 @@ matters most.
 - **Structured contracts:** Pydantic models and JSON artifacts
 - **Local LLM runtime:** Ollama, with specialised generator, judge and fidelity-review roles
 - **Quality system:** structural validation, semantic fidelity gates and bounded repair loops
-- **Media workflow:** image/video/narration handoff, technical QA, deterministic assembly and delivery manifests
+- **Media workflow:** OpenAI ImageGen keyframes, Wan 2.2 image-to-video, ElevenLabs narration, technical QA, deterministic assembly and delivery manifests
 
 ## Pipeline at a glance
 
@@ -40,6 +40,35 @@ flowchart LR
 
 See [the architecture](docs/ARCHITECTURE.md) for the component breakdown.
 
+## Pilot media stack
+
+The pilot combined a controlled agent workflow with human-operated media tools.
+Provider credentials, prompts and production automation remain private; the
+providers and their roles are documented here for technical transparency.
+
+| Stage | Technology used in the pilot | Role |
+| --- | --- | --- |
+| Keyframes and thumbnail artwork | OpenAI ImageGen in ChatGPT | Generated approved still frames and source artwork under human creative review. |
+| Animation | Wan 2.2 14B Fast, via a Hugging Face ZeroGPU Space | Turned approved keyframes into individual image-to-video clips. |
+| Narration | ElevenLabs `eleven_multilingual_v2` | Produced the English narration, which was then normalized and QA-checked locally. |
+| Music | YouTube Audio Library | Provided the licensed music track used in the final mix. |
+| Assembly and QA | Python and FFmpeg-based scripts | Validated, assembled and packaged the final media. |
+
+Media creation was intentionally human-controlled: the pipeline prepared the
+next approved input and validated the returned artifact, rather than performing
+unattended bulk generation.
+
+## Models used in the pilot
+
+| Responsibility | Model |
+| --- | --- |
+| Story planning, writing, character bible, visual style bible and production planning | Ollama `qwen3:8b` |
+| Independent story judgment | Ollama `gpt-oss:20b` |
+| Semantic fidelity reviews | Ollama `qwen2.5:14b-instruct` |
+| Keyframe and thumbnail-art generation | OpenAI ImageGen in ChatGPT |
+| Image-to-video animation | Wan 2.2 14B Fast |
+| English narration | ElevenLabs `eleven_multilingual_v2` |
+
 ## Pilot outcome
 
 The pilot validated the full workflow from brief to a publication-ready animation:
@@ -49,7 +78,7 @@ The pilot validated the full workflow from brief to a publication-ready animatio
 | Story structure | 4 scenes, 20 planned shots |
 | Visual production | 20 keyframes and 20 video clips |
 | Final master | 110.25 seconds, H.264 video and stereo AAC |
-| Validation | media decode, audio QA, artifact completeness and delivery manifest |
+| Validation | media decode, narration/audio QA, artifact completeness and delivery manifest |
 | Distribution | long-form metadata, safe-area thumbnail and three vertical short-form assets |
 
 ## Design principles

@@ -45,9 +45,10 @@ Specialised roles use local Ollama models rather than one generic prompt:
 | Fidelity reviewers | Compare generated plans against approved source artifacts. |
 | Repair agents | Make one targeted correction from recorded findings. |
 
-Models are selected by task: a generation model for planning/writing, a separate
-judge model for independent evaluation, and an instruction model for semantic
-fidelity checks. Model identifiers and prompt templates are private configuration.
+Models are selected by task: `qwen3:8b` for planning/writing and production
+artifacts, `gpt-oss:20b` for independent evaluation, and
+`qwen2.5:14b-instruct` for semantic fidelity checks. Prompt templates and runtime
+configuration remain private.
 
 ## 3. Typed contracts and deterministic validation
 
@@ -69,6 +70,15 @@ Examples of invariants:
 The system exports a single next prompt and expected file location for a human
 operator. This supports external image-to-video tools while preserving continuity
 and avoiding uncontrolled bulk generation.
+
+For the reference pilot, approved still frames were created with **OpenAI
+ImageGen in ChatGPT**. Each still was then animated manually with **Wan 2.2 14B
+Fast** through a Hugging Face ZeroGPU Space. English narration was generated with
+**ElevenLabs `eleven_multilingual_v2`** and normalized locally; the final mix used
+a licensed track from the **YouTube Audio Library**. These are documented pilot
+choices, not hard dependencies: provider credentials, prompts and adapter
+configuration remain private, and the architecture keeps the media boundary
+replaceable.
 
 After each handoff, scripts check file existence, dimensions, duration, codec,
 decodeability, audio properties and completeness. The assembly stage creates scene
@@ -97,8 +107,12 @@ run/<run_id>/
 | --- | --- |
 | Language/runtime | Python |
 | Workflow orchestration | LangGraph |
-| LLM integration | LangChain + Ollama |
+| LLM integration | LangChain + Ollama (`qwen3:8b`, `gpt-oss:20b`, `qwen2.5:14b-instruct`) |
 | Data contracts | Pydantic |
+| Keyframe generation (pilot) | OpenAI ImageGen in ChatGPT, human-operated |
+| Image-to-video (pilot) | Wan 2.2 14B Fast via Hugging Face ZeroGPU, human-operated |
+| Narration (pilot) | ElevenLabs `eleven_multilingual_v2` |
+| Final music (pilot) | YouTube Audio Library |
 | Media processing and QA | deterministic Python/FFmpeg-based scripts |
 | Data format | JSON run artifacts |
 | Development environment | Windows, virtual environment, local models |
